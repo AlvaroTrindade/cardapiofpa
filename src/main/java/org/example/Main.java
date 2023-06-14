@@ -131,6 +131,8 @@ public class Main extends JFrame {
         });
 
         formularioPratos.add(new JLabel());
+        formularioPratos.add(new JLabel());
+        formularioPratos.add(new JLabel());
         formularioPratos.add(botao);
 
         segundoForm.getContentPane().add(BorderLayout.CENTER, formularioPratos);
