@@ -24,6 +24,7 @@ public class prato {
 
 
 
+    // toda vez que o lucro for solicitado o mesmo já terá o valor de acordo com o seu fator atual.
     public double getLucro(){
         return lucro * fatorLucro;
     }

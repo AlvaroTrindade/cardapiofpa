@@ -253,15 +253,29 @@ public class Main extends JFrame {
         return prato;
     }
 
+    // Método principal, responsável pela monstagem do cardápio
+    /*
+    * dias: Quantidade de dias informado pelo cliente
+    * quantidadePratos: Quantidade de pratos disponíveis para utilização
+    * orcamento: orçamento informado pelo cliente
+    * pratos: lista com os pratos disponíveis
+    * */
     public static List<prato> montarCardapioGuloso(int dias, int quantidadePratos, double orcamento, List<prato> pratos){
+
+        //lucro total armazenado que será retornado.
         double lucroTotal = 0;
+
+        // cardápio final
         List<prato> cardapio = new ArrayList<>();
 
-
+        // Laço cujo objetivo é percorrer a quantidades de dias informados pelo cliente.
         for(int i = 1 ; i <= dias; i++){
 
+            // variavél que irá armazenar o melhor prato para aquele dia.
             prato pratodoDia = null;
 
+            // A partir do segundo dia será necessário atualizar o fator do lucro da nossa listagem de pratos.
+            // A função retorna a lista de prazos com o fatordoLucro atualizado.
             if(i > 1){
                 pratos = atualizaFatorLucro(pratos, cardapio);
             }
@@ -269,30 +283,43 @@ public class Main extends JFrame {
             do{
                 // Se prato for diferente de nulo,
                 // ele está na segunda pesquisa, pois o custo foi maior que o orçamento.
+                // Portanto, removeremos o prato dessa rodada e seguiremos com o restante.
                 if(pratodoDia != null){
                     pratos.remove(pratodoDia);
                     pratodoDia = null;
                 }
 
+                // Intitui o prato do dia aquele que possui a maior proporção Lucro-Custo
                 if(pratos.size() > 0){
-                    pratodoDia = fatorLucroCusto(pratos);
+                    pratodoDia = maiorFatorLucroCusto(pratos);
                 }
 
+                /* A busca continua enquanto:
+                    - O prato não for encontrado
+                    - E tiver pratos a serem verificados
+                    - E o custo for maior que o orçamento.
+
+                  A partir do momento que uma dessas condições forem descumpridas, a pesquisa finaliza.
+                 */
             } while(pratodoDia != null && pratodoDia.getCusto() > orcamento && pratos.size() > 0);
 
+            /* Caso a pesquisa tenha finalizado e o prato tenha sido encotrado, o mesmo será adicionado ao cardápio e
+             atualizado os valores de orçamento e lucrototal */
             if(pratodoDia != null){
                 cardapio.add(pratodoDia);
                 orcamento -= pratodoDia.getCusto();
                 lucroTotal += pratodoDia.getLucro();
 
             }else{
-                // Orçamento estourado
+                // Se o prato não tiver sido encotrado, isso significa que o Orçamento estourou.
                 cardapio.clear();
                 return cardapio;
             }
 
         }
 
+        // Por fim, após percorrer todos os dias definidos, o lucro total será atualizado
+        // e o cardápio retornado para exibição.
         lucro_total = lucroTotal;
         return cardapio;
 
@@ -300,7 +327,7 @@ public class Main extends JFrame {
 
 
     // Método retorna o prato de maior fator Lucro/Custo
-    public static prato fatorLucroCusto(List<prato> pratos){
+    public static prato maiorFatorLucroCusto(List<prato> pratos){
         prato pratoMaxrFator = pratos.get(0);
         double fatorMax = pratos.get(0).fatorLucroCusto();
 
@@ -314,17 +341,21 @@ public class Main extends JFrame {
         return pratoMaxrFator;
     }
 
+    // função tem como objetivo atualizar o fatorLucro dos últimos pratos escolhidos.
     public static List<prato> atualizaFatorLucro(List<prato> pratos, List<prato> cardapio){
         int quantItensCardapio = cardapio.size();
         double fatorLucro = 1;
 
-        // Se os dois últimos itens forem iguais
+        // Se os dois últimos itens forem iguais o fatorlucro será 0.
         if(quantItensCardapio >= 2 && (cardapio.get(quantItensCardapio-2).equals(cardapio.get(quantItensCardapio-1)))){
             fatorLucro = 0;
         }else if (quantItensCardapio == 1){
+            // Se somente o último item foi igual o fatorlucro será 0.5.
             fatorLucro = 0.5;
         }
 
+        // A partir do último item selecionado no cardapio, ele o identifica na lista de pratos e atualiza o
+        // fator do lucro.
         for(prato p : pratos){
             p.setFatorLucro(1);
             if(p.getNome().equals(cardapio.get(quantItensCardapio-1).getNome())){
@@ -332,6 +363,7 @@ public class Main extends JFrame {
             }
         }
 
+        // por fim, retornará a lista de pratos.
         return pratos;
     }
 
