@@ -1,3 +1,15 @@
+/**
+ * Fundamentos de Complexidade Algoritmica - PUC-Minas
+ * Data: 14/06/2023
+ * Versão: 1.0
+ * Autores:
+ *  Alvaro Trindade,
+ *  Iago Leles,
+ *  Isabela Faria,
+ *  Rodrigo Carvalho,
+ *  Wenderson Duarte
+ * **/
+
 package org.example;
 
 import java.util.ArrayList;
